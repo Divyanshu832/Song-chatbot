@@ -2,6 +2,7 @@
 import { useChat } from "ai/react";
 import { useState } from "react";
 import GPTLogo from "./components/GPTLogo";
+import radio from "/radio.png";
 
 export default function Home() {
   const { messages, input, handleInputChange, handleSubmit } = useChat();
@@ -35,6 +36,10 @@ export default function Home() {
     }
   };
 
+  const sanitizeContent = (content: string) => {
+    return content.replace(/[*@#]/g, "");
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="flex flex-grow overflow-hidden">
@@ -47,7 +52,7 @@ export default function Home() {
                 {response.songs.slice(0, 5).map((song, index) => (
                   <li key={index} className="mb-2 flex items-center">
                     <img
-                      src={song.image[0]["#text"] || "/default-image.jpg"} // Replace with a default image if missing
+                      src="/radio.png" // Replace with a default image if missing
                       alt={song.name}
                       className="w-10 h-10 mr-2"
                     />
@@ -68,6 +73,9 @@ export default function Home() {
 
         {/* Center Section: Chatbot */}
         <div className="w-1/2 p-4 flex flex-col">
+            <div className="w-full pb-4">
+              <h1 className="text-4xl text-center text-fuchsia-600 font-semibold font-serif">Song Recommendation Chatbot</h1>
+            </div>
           <div className="overflow-y-auto flex-grow">
             {messages.map((message) => (
               <div
@@ -78,7 +86,7 @@ export default function Home() {
               >
                 <div className="max-w-3xl mx-auto py-6 flex">
                   {message.role === "assistant" && <GPTLogo />}
-                  <span className="ml-3">{message.content}</span>
+                  <span className="ml-3">{sanitizeContent(message.content)}</span>
                 </div>
               </div>
             ))}
@@ -102,7 +110,7 @@ export default function Home() {
                 {response.songs.slice(-5).map((song, index) => (
                   <li key={index} className="mb-2 flex items-center">
                     <img
-                      src={song.image[0]["#text"] || "/default-image.jpg"} // Replace with a default image if missing
+                      src="/radio.png" // Replace with a default image if missing
                       alt={song.name}
                       className="w-10 h-10 mr-2"
                     />
