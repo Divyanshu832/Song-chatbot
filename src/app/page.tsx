@@ -12,7 +12,6 @@ export default function Home() {
   const customHandleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Call useChat's handleSubmit to process the chat message
     handleSubmit(e);
 
     try {
@@ -85,7 +84,11 @@ export default function Home() {
                 }`}
               >
                 <div className="max-w-3xl mx-auto py-6 flex">
-                  {message.role === "assistant" && <GPTLogo />}
+                {message.role === "assistant" && (
+                <div style={{ width: "40px", height: "40px" }}>
+                <GPTLogo />
+                </div>
+                )}
                   <span className="ml-3">{sanitizeContent(message.content)}</span>
                 </div>
               </div>
